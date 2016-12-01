@@ -1,6 +1,7 @@
 library(shiny)
 library(datasets)
 library(plotly)
+library(DT)
 
 # Define server logic required to draw a histogram
 shinyServer(function(input, output) {
@@ -36,7 +37,7 @@ shinyServer(function(input, output) {
   })
   
   # Show the first "n" observations
-  output$view <- renderTable({
+  output$view <- DT::renderDataTable({
     head(datasetInput(), n = input$obs)
   })
 })

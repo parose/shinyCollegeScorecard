@@ -1,5 +1,7 @@
 library(shiny)
 library(plotly)
+library(DT)
+
 # Define UI for application that draws a histogram
 shinyUI(fluidPage(
   
@@ -37,7 +39,7 @@ shinyUI(fluidPage(
     mainPanel(
       verbatimTextOutput("summary"),
       
-      tableOutput("view")
+      DT::dataTableOutput("view")
     )
   )
   
