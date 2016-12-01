@@ -14,6 +14,13 @@ shinyServer(function(input, output) {
     {
       #print DT
     }
-
+    else if(input$graphSelect == "Histogram of Total SAT Score")
+    {
+      
+    }
+    else if(input$graphSelect == "Histogram of Total ACT Score")
+    {
+      
+    }
 })
 
