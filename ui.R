@@ -9,11 +9,7 @@ shinyUI(fluidPage(
   # Sidebar with a slider input for the number of bins
   sidebarLayout(
     sidebarPanel(
-      sliderInput("bins",
-                  "Number of bins:",
-                  min = 1,
-                  max = 50,
-                  value = 30)
+      radioButtons("graphSelect", "Select View", c("Overview","Barchart of stuff","Boxplot of Stuff"))
     ),
     
     # Show a plot of the generated distribution
@@ -26,18 +22,13 @@ shinyUI(fluidPage(
   # number of observations to view
   sidebarLayout(
     sidebarPanel(
-      selectInput("dataset", "Choose a dataset:", 
-                  choices = c("rock", "pressure", "cars")),
-      
-      numericInput("obs", "Number of observations to view:", 10)
+
     ),
     
     # Show a summary of the dataset and an HTML table with the 
     # requested number of observations
     mainPanel(
-      verbatimTextOutput("summary"),
-      
-      tableOutput("view")
+
     )
   )
   
