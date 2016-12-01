@@ -10,6 +10,10 @@ shinyServer(function(input, output) {
     
     # draw the histogram with the specified number of bins
     plot_ly(x = ~rnorm(50), type = "histogram")#(x, breaks = bins, col = 'darkgray', border = 'white')
+    if(input$graphSelect == "Datatable Overview")
+    {
+      #print DT
+    }
 
 })
 
