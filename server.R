@@ -10,15 +10,15 @@ shinyServer(function(input, output) {
     
     # draw the histogram with the specified number of bins
     plot_ly(x = ~rnorm(50), type = "histogram")#(x, breaks = bins, col = 'darkgray', border = 'white')
-    if(input$graphSelect == "Datatable Overview")
+    if(input$graphSelect == "Overview")
     {
       #print DT
     }
-    else if(input$graphSelect == "Histogram of Total SAT Score")
+    if(input$graphSelect == "Regression")
     {
       
     }
-    else if(input$graphSelect == "Histogram of Total ACT Score")
+    if(input$graphSelect == "Histogram")
     {
       
     }

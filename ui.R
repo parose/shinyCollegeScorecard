@@ -11,7 +11,7 @@ shinyUI(fluidPage(
   # Sidebar with a slider input for the number of bins
   sidebarLayout(
     sidebarPanel(
-      radioButtons("graphSelect", "Select View", c("Datatable Overview","Histogram of Total SAT Score","Histogram of Total ACT Score"))
+      radioButtons("graphSelect", "Select View", c("Overview","Regression","Histogram"))
     ),
     
     # Show a plot of the generated distribution
