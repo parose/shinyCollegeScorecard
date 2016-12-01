@@ -1,6 +1,7 @@
 library(shiny)
 library(datasets)
 library(plotly)
+library(DT)
 
 # Define server logic required to draw a histogram
 shinyServer(function(input, output) {
