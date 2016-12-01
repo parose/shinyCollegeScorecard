@@ -11,7 +11,7 @@ shinyUI(fluidPage(
   # Sidebar with a slider input for the number of bins
   sidebarLayout(
     sidebarPanel(
-      radioButtons("graphSelect", "Select View", c("Overview","Barchart of stuff","Boxplot of Stuff"))
+      radioButtons("graphSelect", "Select View", c("Datatable Overview","Histogram of Total SAT Score","Histogram of Total ACT Score"))
     ),
     
     # Show a plot of the generated distribution
@@ -19,12 +19,8 @@ shinyUI(fluidPage(
       plotlyOutput("distPlot")
     )),
   
-  
-  # Sidebar with controls to select a dataset and specify the
-  # number of observations to view
   sidebarLayout(
     sidebarPanel(
-
     ),
     
     # Show a summary of the dataset and an HTML table with the 
