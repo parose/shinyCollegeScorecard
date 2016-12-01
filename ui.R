@@ -11,7 +11,11 @@ shinyUI(fluidPage(
   # Sidebar with a slider input for the number of bins
   sidebarLayout(
     sidebarPanel(
-      radioButtons("graphSelect", "Select View", c("Overview","Regression","Histogram"))
+      checkboxInput("NE", label = "New England", value = TRUE),
+      checkboxInput("MDW", label = "Midwest", value = TRUE),
+      checkboxInput("SO", label = "South", value = TRUE),         checkboxInput("WE", label = "West", value = TRUE),
+      checkboxInput("PR", label = "Private", value = TRUE),
+      checkboxInput("PU", label = "Public", value = TRUE)      
     ),
     
     # Show a plot of the generated distribution
@@ -21,6 +25,13 @@ shinyUI(fluidPage(
   
   sidebarLayout(
     sidebarPanel(
+      textInput("X",
+                "X:",
+                value="Name"),
+      textInput("Y",
+                "Y:",
+                value="ACT")
+      
     ),
     
     # Show a summary of the dataset and an HTML table with the 
