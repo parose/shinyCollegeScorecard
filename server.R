@@ -30,10 +30,11 @@ shinyServer(function(input, output) {
   score <- cbind(score[,1:9], netCost)
   
   
-    # draw the histogram with the specified number of bins
-    plot_ly(x = ~rnorm(50), type = "histogram")#(x, breaks = bins, col = 'darkgray', border = 'white')
-      #print DT
+  output$scatterPlot <- renderPlotly({
+    plot_ly(data = score, x = ~AverageSAT, y = ~netCost)
+  })
   
-    output$datatable = DT::renderDataTable(score)
+      #print DT
+      output$datatable = DT::renderDataTable(score)
 })
 
