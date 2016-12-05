@@ -181,6 +181,6 @@ shinyServer(function(input, output) {
   })
   
       #print DT
-      output$datatable = DT::renderDataTable(score)
+      output$datatable = DT::renderDataTable(scorex())
 })
 
