@@ -13,7 +13,9 @@ shinyUI(fluidPage(
     sidebarPanel(
       checkboxInput("NE", label = "New England", value = TRUE),
       checkboxInput("MDW", label = "Midwest", value = TRUE),
-      checkboxInput("SO", label = "South", value = TRUE),         checkboxInput("WE", label = "West", value = TRUE),
+      checkboxInput("SO", label = "South", value = TRUE),         
+      checkboxInput("WE", label = "West", value = TRUE),
+      checkboxInput("NUS", label = "Non-US State Location", value = TRUE),      
       checkboxInput("PR", label = "Private", value = TRUE),
       checkboxInput("PU", label = "Public", value = TRUE),
       checkboxInput("NP", label = "Non-Profit", value = TRUE),
