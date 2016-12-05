@@ -177,7 +177,7 @@ shinyServer(function(input, output) {
         
 
   output$scatterPlot <- renderPlotly({
-    plot_ly(data = score, x = ~AverageSAT, y = ~netCost)
+    plot_ly(data = scorex(), x = ~AverageSAT, y = ~Control)
   })
   
       #print DT
