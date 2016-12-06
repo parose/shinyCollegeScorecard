@@ -27,22 +27,17 @@ shinyUI(fluidPage(
       plotlyOutput("scatterPlot")
     )),
   
-  sidebarLayout(
-    sidebarPanel(
-      textInput("X",
-                "X:",
-                value="Name"),
-      textInput("Y",
-                "Y:",
-                value="ACT")
-      
-    ),
+  selectInput("myXs", "X:", 
+              choices = c("SAT", "ACT")),
+  
+  selectInput("myYs", "Y:", 
+              choices = c("ACT", "SAT")),
     
     # Show a summary of the dataset and an HTML table with the 
     # requested number of observations
     mainPanel(
       DT::dataTableOutput("datatable")
     )
-  )
+  
   
 ))
