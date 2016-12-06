@@ -187,10 +187,17 @@ shinyServer(function(input, output) {
   })
   
   output$scatterPlot <- renderPlotly({
-
-    plot_ly(data = scorex(), x = ~eval(parse(text = myX())), y = ~(eval(parse(text = myY()))))
+    x <- list(
+      title = myX()
+    )
+    y <- list(
+      title = myY()
+    )
+    plot_ly(data = scorex(), x = ~eval(parse(text = myX())), y = ~(eval(parse(text = myY())))) %>%
+      layout(xaxis = x, yaxis = y)
 
   })
+  
   
   #print DT
   output$datatable = DT::renderDataTable(scorex())
