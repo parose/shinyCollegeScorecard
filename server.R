@@ -188,7 +188,7 @@ shinyServer(function(input, output) {
   
   output$scatterPlot <- renderPlotly({
 
-    plot_ly(data = scorex(), x = ~myX(), y = ~myY())
+    plot_ly(data = scorex(), x = ~eval(parse(text = myX())), y = ~(eval(parse(text = myY()))))
 
   })
   
