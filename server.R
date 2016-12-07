@@ -137,6 +137,7 @@ shinyServer(function(input, output) {
     
     if(!NE())
     {
+      dispScore <- dispScore[dispScore$Region != 0,]      
       dispScore <- dispScore[dispScore$Region != 1,]
       dispScore <- dispScore[dispScore$Region != 2,] 
     }
