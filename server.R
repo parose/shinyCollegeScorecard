@@ -72,19 +72,6 @@ shinyServer(function(input, output) {
     
   })
   
-  PR <- reactive({
-    
-    if(input$PR)
-    {
-      x <- 1
-    }
-    else
-    {
-      x <- 0
-    }
-    
-  })
-  
   PU <- reactive({
     
     if(input$PU)
@@ -98,9 +85,9 @@ shinyServer(function(input, output) {
     
   })
   
-  NP <- reactive({
+  PR <- reactive({
     
-    if(input$NUS)
+    if(input$PR)
     {
       x <- 1
     }
@@ -111,9 +98,9 @@ shinyServer(function(input, output) {
     
   })
   
-  FP <- reactive({
+  PFP <- reactive({
     
-    if(input$NUS)
+    if(input$PFP)
     {
       x <- 1
     }
