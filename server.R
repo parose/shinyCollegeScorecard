@@ -7,6 +7,26 @@ library(DT)
 shinyServer(function(input, output) {
   
   #Data Importing + Cleaning
+  score <- read.csv("data/Most-Recent-Cohorts-All-Data-Elements.csv", as.is = T)[c("INSTNM", "STABBR", "REGION", "LATITUDE", "LONGITUDE", "CONTROL", "SAT_AVG_ALL", "ACTCMMID", "UGDS", "NPT4_PUB", "NPT4_PRIV")]
+  colnames(score) <- c("College Name", "State", "Region", "Latitude", "Longitude", "Control", "AverageSAT", "AverageACT", "NumberofStudents", "PublicNetCost", "PrivateNetCost")
+  score[score$Latitude == "NULL", "Latitude"] <- NA
+  score[score$Longitude == "NULL", "Longitude"] <- NA
+  score$Latitude <- as.numeric(score$Latitude)
+  score$Longitude <- as.numeric(score$Longitude)
+  
+  score[score$AverageACT == "NULL", "AverageACT"] <- NA
+  score[score$AverageSAT == "NULL", "AverageSAT"] <- NA
+  score$AverageACT <- as.numeric(score$AverageACT)
+  score$AverageSAT <- as.numeric(score$AverageSAT)
+  
+  score[score$NumberofStudents == "NULL", "NumberofStudents"] <- NA
+  score$NumberofStudents <- as.numeric(score$NumberofStudents)
+  
+  score[score$PublicNetCost == "NULL", "PublicNetCost"] <- NA
+  score[score$PrivateNetCost == "NULL", "PrivateNetCost"] <- NA
+  netCost <- as.numeric(score$PublicNetCost)
+  netCost[is.na(netCost)] <- as.numeric(score$PrivateNetCost[is.na(netCost)])
+  
   NE <- reactive({
     
     if(input$NE)
@@ -113,52 +133,34 @@ shinyServer(function(input, output) {
   
   
   scorex <- reactive({
-    score <- read.csv("data/Most-Recent-Cohorts-All-Data-Elements.csv", as.is = T)[c("INSTNM", "STABBR", "REGION", "LATITUDE", "LONGITUDE", "CONTROL", "SAT_AVG_ALL", "ACTCMMID", "UGDS", "NPT4_PUB", "NPT4_PRIV")]
-    colnames(score) <- c("College Name", "State", "Region", "Latitude", "Longitude", "Control", "AverageSAT", "AverageACT", "NumberofStudents", "PublicNetCost", "PrivateNetCost")
-    score[score$Latitude == "NULL", "Latitude"] <- NA
-    score[score$Longitude == "NULL", "Longitude"] <- NA
-    score$Latitude <- as.numeric(score$Latitude)
-    score$Longitude <- as.numeric(score$Longitude)
-    
-    score[score$AverageACT == "NULL", "AverageACT"] <- NA
-    score[score$AverageSAT == "NULL", "AverageSAT"] <- NA
-    score$AverageACT <- as.numeric(score$AverageACT)
-    score$AverageSAT <- as.numeric(score$AverageSAT)
-    
-    score[score$NumberofStudents == "NULL", "NumberofStudents"] <- NA
-    score$NumberofStudents <- as.numeric(score$NumberofStudents)
-    
-    score[score$PublicNetCost == "NULL", "PublicNetCost"] <- NA
-    score[score$PrivateNetCost == "NULL", "PrivateNetCost"] <- NA
-    netCost <- as.numeric(score$PublicNetCost)
-    netCost[is.na(netCost)] <- as.numeric(score$PrivateNetCost[is.na(netCost)])
+    dispScore <- score
     
     if(!NE())
     {
-      score <- score[score$Region != 1,]
-      score <- score[score$Region != 2,] 
+      dispScore <- dispScore[dispScore$Region != 1,]
+      dispScore <- dispScore[dispScore$Region != 2,] 
     }
     if(!MDW())
     {
-      score <- score[score$Region != 3,]
-      score <- score[score$Region != 4,] 
+      dispScore <- dispScore[dispScore$Region != 3,]
+      dispScore <- dispScore[dispScore$Region != 4,]  
     }    
     if(!SO())
     {
-      score <- score[score$Region != 5,]
-      score <- score[score$Region != 6,] 
+      dispScore <- dispScore[dispScore$Region != 5,]
+      dispScore <- dispScore[dispScore$Region != 6,] 
     }
     if(!WE())
     {
-      score <- score[score$Region != 7,]
-      score <- score[score$Region != 8,] 
+      dispScore <- dispScore[dispScore$Region != 7,]
+      dispScore <- dispScore[dispScore$Region != 8,]  
     }
     if(!NUS())
     {
-      score <- score[score$Region != 9,]
-    }         
-    score
+      dispScore <- dispScore[dispScore$Region != 9,]  
+    }        
     
+    dispScore
   })
 
   myX <- reactive({
@@ -173,7 +175,12 @@ shinyServer(function(input, output) {
             "SAT" = "AverageSAT")
   })
   
+  #regression <- reactive({
+   # model <- lm(eval(parse(text = myY())) ~ eval(parse(text = myX())), data = scorex())
+  #})
+  
   output$scatterPlot <- renderPlotly({
+    #model <- lm(eval(parse(text = myY())) ~ eval(parse(text = myX())), data = scorex())
     x <- list(
       title = myX()
     )
@@ -181,10 +188,11 @@ shinyServer(function(input, output) {
       title = myY()
     )
     plot_ly(data = scorex(), x = ~eval(parse(text = myX())), y = ~(eval(parse(text = myY())))) %>%
+      #add_trace(data = scorex(), y = ~fitted(model), mode = "lines") %>%
       layout(xaxis = x, yaxis = y)
-
   })
   
+  #output$linearModel <- renderPrint({regression$model})
   
   #print DT
   output$datatable = DT::renderDataTable(scorex())
