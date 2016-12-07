@@ -16,10 +16,9 @@ shinyUI(fluidPage(
       checkboxInput("SO", label = "South", value = TRUE),         
       checkboxInput("WE", label = "West", value = TRUE),
       checkboxInput("NUS", label = "Non-US State Location", value = TRUE),      
+      checkboxInput("PU", label = "Public", value = TRUE),      
       checkboxInput("PR", label = "Private", value = TRUE),
-      checkboxInput("PU", label = "Public", value = TRUE),
-      checkboxInput("NP", label = "Non-Profit", value = TRUE),
-      checkboxInput("FP", label = "For-Profit", value = TRUE)      
+      checkboxInput("PFP", label = "Private or-Profit", value = TRUE)      
     ),
     
     # Show a plot of the generated distribution
