@@ -158,7 +158,19 @@ shinyServer(function(input, output) {
     if(!NUS())
     {
       dispScore <- dispScore[dispScore$Region != 9,]  
-    }        
+    }
+    if(!PU())
+    {
+      dispScore <- dispScore[dispScore$Control != 1,]  
+    }   
+    if(!PR())
+    {
+      dispScore <- dispScore[dispScore$Control != 2,]  
+    }          
+    if(!PFP())
+    {
+      dispScore <- dispScore[dispScore$Control != 3,]  
+    }          
     
     dispScore
   })
