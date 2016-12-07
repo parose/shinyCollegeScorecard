@@ -175,24 +175,20 @@ shinyServer(function(input, output) {
             "SAT" = "AverageSAT")
   })
   
-  #regression <- reactive({
-   # model <- lm(eval(parse(text = myY())) ~ eval(parse(text = myX())), data = scorex())
-  #})
-  
   output$scatterPlot <- renderPlotly({
-    #model <- lm(eval(parse(text = myY())) ~ eval(parse(text = myX())), data = scorex())
+    plotData <- scorex()[!is.na(scorex()[, myX()]) & !is.na(scorex()[, myY()]), ]
+ 
+    model <- lm(eval(parse(text = myY())) ~ eval(parse(text = myX())), data = plotData)
     x <- list(
       title = myX()
     )
     y <- list(
       title = myY()
     )
-    plot_ly(data = scorex(), x = ~eval(parse(text = myX())), y = ~(eval(parse(text = myY())))) %>%
-      #add_trace(data = scorex(), y = ~fitted(model), mode = "lines") %>%
-      layout(xaxis = x, yaxis = y)
+    plot_ly(plotData, x = ~eval(parse(text = myX()))) %>% add_markers(y = ~eval(parse(text = myY()))) %>%
+     add_lines(y = ~fitted(model), line = list(color = "orange")) %>%
+     layout(xaxis = x, yaxis = y)
   })
-  
-  #output$linearModel <- renderPrint({regression$model})
   
   #print DT
   output$datatable = DT::renderDataTable(scorex())
