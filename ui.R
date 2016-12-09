@@ -26,6 +26,12 @@ shinyUI(fluidPage(
       plotlyOutput("scatterPlot")
     )),
   
+  sidebarPanel(
+    checkboxInput("LM", label = "Show Regression Line", value = FALSE),
+    checkboxInput("CI", label = "Show Confidence Interval", value = FALSE),
+    checkboxInput("PI", label = "Show Proportion Interval", value = FALSE)
+  ),
+  
   selectInput("myXs", "X:", 
               choices = c("SAT", "ACT")),
   
