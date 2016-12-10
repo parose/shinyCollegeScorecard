@@ -18,7 +18,15 @@ shinyUI(fluidPage(
       checkboxInput("NUS", label = "Non-US State Location", value = TRUE),      
       checkboxInput("PU", label = "Public", value = TRUE),      
       checkboxInput("PR", label = "Private", value = TRUE),
-      checkboxInput("PFP", label = "Private or-Profit", value = TRUE)      
+      checkboxInput("PFP", label = "Private or-Profit", value = TRUE),
+      selectInput("myXs", "X:", 
+                  choices = c("SAT", "ACT")),
+      
+      selectInput("myYs", "Y:", 
+                  choices = c("ACT", "SAT")),
+      checkboxInput("LM", label = "Show Regression Line", value = FALSE),
+      checkboxInput("CI", label = "Show Confidence Interval", value = FALSE),
+      checkboxInput("PI", label = "Show Prediction Interval", value = FALSE)
     ),
     
     # Show a plot of the generated distribution
@@ -26,17 +34,7 @@ shinyUI(fluidPage(
       plotlyOutput("scatterPlot")
     )),
   
-  sidebarPanel(
-    checkboxInput("LM", label = "Show Regression Line", value = FALSE),
-    checkboxInput("CI", label = "Show Confidence Interval", value = FALSE),
-    checkboxInput("PI", label = "Show Proportion Interval", value = FALSE)
-  ),
   
-  selectInput("myXs", "X:", 
-              choices = c("SAT", "ACT")),
-  
-  selectInput("myYs", "Y:", 
-              choices = c("ACT", "SAT")),
     
     # Show a summary of the dataset and an HTML table with the 
     # requested number of observations

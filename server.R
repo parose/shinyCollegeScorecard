@@ -227,15 +227,15 @@ shinyServer(function(input, output) {
     y <- list(
       title = myY()
     )
-    plot <- plot_ly(plotData, x = ~eval(parse(text = myX()))) %>% add_markers(y = ~eval(parse(text = myY())), showlegend = F) %>% layout(xaxis = x, yaxis = y)
-    if (LM()) {
-      plot <- add_lines(plot, y = ~fitted(model), line = list(color = "red"), name = "Regression Line")
-    }
-    if (CI()){
-      plot <- add_ribbons(plot, ymin = ~confObj[,"lwr"], ymax = ~confObj[,"upr"], line = list(color = 'rgba(255, 204, 0, 0.4)'), fillcolor = 'rgba(255, 204, 0, 0.4)', name = "99% Confidence Interval")
-    }
+    plot <- plot_ly(plotData, x = ~eval(parse(text = myX()))) %>% add_markers(y = ~eval(parse(text = myY())), name = "", text = plotData[,"College Name"], showlegend = F) %>% layout(xaxis = x, yaxis = y)
     if (PI()){
       plot <- add_ribbons(plot, ymin = ~predictObj[,"lwr"], ymax = ~predictObj[,"upr"], line = list(color = 'rgba(255, 246, 79, 0.4)'), fillcolor = 'rgba(255, 246, 79, 0.4)', name = "99% Prediction Interval")
+    }
+    if (CI()){
+      plot <- add_ribbons(plot, ymin = ~confObj[,"lwr"], ymax = ~confObj[,"upr"], line = list(color = 'rgba(255, 150, 0, 0.4)'), fillcolor = 'rgba(255, 204, 0, 0.4)', name = "99% Confidence Interval")
+    }
+    if (LM()) {
+      plot <- add_lines(plot, y = ~fitted(model), line = list(color = "red"), name = "Regression Line")
     }
     plot
   })
