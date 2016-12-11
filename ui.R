@@ -31,9 +31,9 @@ shinyUI(fluidPage(
     
     # Show a plot of the generated distribution
     mainPanel(
-      plotlyOutput("scatterPlot")
+      plotlyOutput("scatterPlot"),
+      verbatimTextOutput("stats")
     )),
-  
   
     
     # Show a summary of the dataset and an HTML table with the 

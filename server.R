@@ -240,6 +240,16 @@ shinyServer(function(input, output) {
     plot
   })
   
+  output$stats <- renderPrint({
+    model <- lm(eval(parse(text = myY())) ~ eval(parse(text = myX())), data = scorex())
+    ci <- confint(model)
+    cat("Mean of X:", mean(scorex()[,myX()], na.rm = T), "\tMean of Y:", mean(scorex()[,myY()], na.rm = T), 
+        "\n\nLinear Model: y = ", model$coef[1], " + ", model$coef[2], "*", "x", 
+        "\n\n\t   Coefficient\t95% C.I.\t\t    Prob > t",
+        "\nIntercept: ", model$coef[1], "\t(",ci[1,1], ",", ci[1,2], ")\t    ", summary(model)[[4]][1,4],"\nSlope:\t   ", model$coef[2], "\t(",ci[2,1], ",", ci[2,2], ")\t    ", summary(model)[[4]][2,4],
+        sep = "")
+  })
+  
   #print DT
   output$datatable = DT::renderDataTable(scorex())
 })
