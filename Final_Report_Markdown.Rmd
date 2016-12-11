@@ -1,6 +1,6 @@
 ---
-title: "Untitled"
-author: "Samuel Chase"
+title: "Final_Report_Markdown"
+author: "Samuel Chase,Kirsten Mork, Andrew Rose"
 date: "December 11, 2016"
 output: html_document
 ---
@@ -15,3 +15,4 @@ output: html_document
 <p>The X/Y selection box offers the user a mulitude of options to plot via plotly. This data can then be analyzed point by point by hovering over the graph, or by the use of regression lines, confidence intervals, and prediction intervals.</p>
 
 <p>To the right of the data input is the plotly graph itself, which features a plot of the selected X and Y variables. Under that is the datatable (created by DT) which shows information about all selected colleges.</p>
+
