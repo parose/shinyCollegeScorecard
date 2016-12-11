@@ -28,23 +28,19 @@ shinyUI(fluidPage(
       checkboxInput("CI", label = "Show Confidence Interval", value = FALSE),
       checkboxInput("PI", label = "Show Prediction Interval", value = FALSE),
       selectInput("myhist", "Histogram Variable:",
-                  choices = c("SAT", "ACT"))
+                  choices = c("SAT", "ACT", "Cost", "Number of Students", "Mean Earnings", "Percent of Federal Loans", "Admission Rate"))
+      
     ),
-    
-  #histogram
-  mainPanel(
-    plotlyOutput("hist")
-  ),  
-    # Show a plot of the generated distribution
     mainPanel(
       plotlyOutput("scatterPlot"),
       verbatimTextOutput("stats")
-    )),
-  
+    )
+    ),
     
     # Show a summary of the dataset and an HTML table with the 
     # requested number of observations
     mainPanel(
+      plotlyOutput("hist"),
       DT::dataTableOutput("datatable")
     )
   

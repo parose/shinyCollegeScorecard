@@ -251,10 +251,11 @@ shinyServer(function(input, output) {
   })
   
     output$hist <- renderPlotly({
+      plotData <- scorex()[!is.na(scorex()[, myhist()]),] 
     x <- list(
       title = myhist()
     )
-    p <- plot_ly(data = scorex(), x = ~eval(parse(text = myhist())), type = "histogram") %>% layout(title = "Univariate Data Analysis", xaxis = x)
+    p <- plot_ly(data = plotData, x = ~eval(parse(text = myhist())), type = "histogram") %>% layout(title = "Univariate Data Analysis", xaxis = x)
 
   })
   
