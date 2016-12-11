@@ -7,9 +7,8 @@ library(DT)
 shinyServer(function(input, output) {
   
   #Data Importing + Cleaning
-  score <- read.csv("data/Most-Recent-Cohorts-All-Data-Elements.csv", as.is = T)
-  score <- score[,c("INSTNM", "STABBR", "REGION", "LATITUDE", "LONGITUDE", "CONTROL", "SAT_AVG_ALL", "ACTCMMID", "UGDS", "NPT4_PUB", "NPT4_PRIV", "MN_EARN_WNE_P10", "PCTFLOAN", "ADM_RATE_ALL")]
-  colnames(score) <- c("College Name", "State", "Region", "Latitude", "Longitude", "Control", "AverageSAT", "AverageACT", "NumberofStudents", "PublicNetCost", "PrivateNetCost", "MeanEarnings", "PercentFedLoan", "AdmissionRate")
+  score <- read.csv("data/Most-Recent-Cohorts-All-Data-Elements.csv", as.is = T)[c("INSTNM", "STABBR", "REGION", "LATITUDE", "LONGITUDE", "CONTROL", "SAT_AVG_ALL", "ACTCMMID", "UGDS", "NPT4_PUB", "NPT4_PRIV")]
+  colnames(score) <- c("College Name", "State", "Region", "Latitude", "Longitude", "Control", "AverageSAT", "AverageACT", "NumberofStudents", "PublicNetCost", "PrivateNetCost")
   score[score$Latitude == "NULL", "Latitude"] <- NA
   score[score$Longitude == "NULL", "Longitude"] <- NA
   score$Latitude <- as.numeric(score$Latitude)
@@ -23,22 +22,11 @@ shinyServer(function(input, output) {
   score[score$NumberofStudents == "NULL", "NumberofStudents"] <- NA
   score$NumberofStudents <- as.numeric(score$NumberofStudents)
   
-  #Merge 2 NetCost columns into 1
   score[score$PublicNetCost == "NULL", "PublicNetCost"] <- NA
   score[score$PrivateNetCost == "NULL", "PrivateNetCost"] <- NA
   netCost <- as.numeric(score$PublicNetCost)
   netCost[is.na(netCost)] <- as.numeric(score$PrivateNetCost[is.na(netCost)])
-  score$netCost <- netCost
-  score <- score[, -c(10, 11)]
   
-  score[score$MeanEarnings == "NULL", "MeanEarnings"] <- NA
-  score[score$PercentFedLoan == "NULL", "PercentFedLoan"] <- NA
-  score[score$AdmissionRate == "NULL", "AdmissionRate"] <- NA
-  score$MeanEarnings <- as.numeric(score$MeanEarnings)
-  score$PercentFedLoan <- as.numeric(score$PercentFedLoan)
-  score$AdmissionRate <- as.numeric(score$AdmissionRate)
-  
-  #Checkbox input variables for subsetting data
   NE <- reactive({
     
     if(input$NE)
@@ -143,7 +131,6 @@ shinyServer(function(input, output) {
     
   })
   
-  #Checkbox input variables for turning regression plots on/off
   LM <- reactive({
     if(input$LM) {
       x <- TRUE
@@ -171,7 +158,6 @@ shinyServer(function(input, output) {
     }
   })
   
-  #Subsets data based on checkbox inputs
   scorex <- reactive({
     dispScore <- score
     
@@ -215,32 +201,34 @@ shinyServer(function(input, output) {
     
     dispScore
   })
+  
 
+  myhist <- reactive({
+    switch(input$myhist,
+           "ACT" = "AverageACT",
+           "SAT" = "AverageSAT")
+  })
   
   myX <- reactive({
     switch(input$myXs,
            "SAT" = "AverageSAT",
-           "ACT" = "AverageACT",
-           "Cost" = "netCost",
-           "Number of Students" = "NumberofStudents",
-           "Mean Earnings" = "MeanEarnings",
-           "Percent of Federal Loans" = "PercentFedLoan",
-           "Admission Rate" = "AdmissionRate")
+           "ACT" = "AverageACT")
   })  
-
   
   myY <- reactive({
     switch(input$myYs,
            "ACT" = "AverageACT",
-           "SAT" = "AverageSAT",
-           "Cost" = "netCost",
-           "Number of Students" = "NumberofStudents",
-           "Mean Earnings" = "MeanEarnings",
-           "Percent of Federal Loans" = "PercentFedLoan",
-           "Admission Rate" = "AdmissionRate")
+           "SAT" = "AverageSAT")
   })
   
-  #Renders a scatterplot, optionally with linear regression output
+  output$hist <- renderPlotly({
+    x <- list(
+      title = myhist()
+    )
+    p <- plot_ly(data = scorex(), x = ~eval(parse(text = myhist())), type = "histogram") %>% layout(title = "Univariate Data Analysis", xaxis = x)
+
+  })
+  
   output$scatterPlot <- renderPlotly({
     plotData <- scorex()[!is.na(scorex()[, myX()]) & !is.na(scorex()[, myY()]), ]
     
@@ -254,7 +242,7 @@ shinyServer(function(input, output) {
     y <- list(
       title = myY()
     )
-    plot <- plot_ly(plotData, x = ~eval(parse(text = myX()))) %>% add_markers(y = ~eval(parse(text = myY())), name = "", text = plotData[,"College Name"], showlegend = F) %>% layout(xaxis = x, yaxis = y)
+    plot <- plot_ly(plotData, x = ~eval(parse(text = myX()))) %>% add_markers(y = ~eval(parse(text = myY())), name = "", text = plotData[,"College Name"], showlegend = F) %>% layout(title = "Bivariate Data Analysis", xaxis = x, yaxis = y)
     if (PI()){
       plot <- add_ribbons(plot, ymin = ~predictObj[,"lwr"], ymax = ~predictObj[,"upr"], line = list(color = 'rgba(255, 246, 79, 0.4)'), fillcolor = 'rgba(255, 246, 79, 0.4)', name = "99% Prediction Interval")
     }
@@ -267,7 +255,6 @@ shinyServer(function(input, output) {
     plot
   })
   
-  #Renders text output containing descriptive statistics and regression information
   output$stats <- renderPrint({
     model <- lm(eval(parse(text = myY())) ~ eval(parse(text = myX())), data = scorex())
     ci <- confint(model)
@@ -278,6 +265,6 @@ shinyServer(function(input, output) {
         sep = "")
   })
   
-  #Renders DT data table
+  #print DT
   output$datatable = DT::renderDataTable(scorex())
 })
