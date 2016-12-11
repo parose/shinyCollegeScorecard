@@ -20,27 +20,34 @@ shinyUI(fluidPage(
       checkboxInput("PR", label = "Private", value = TRUE),
       checkboxInput("PFP", label = "Private or-Profit", value = TRUE),
       selectInput("myXs", "X:", 
-                  choices = c("SAT", "ACT", "Cost", "Number of Students", "Mean Earnings", "Percent of Federal Loans", "Admission Rate")),
+                  choices = c("SAT", "ACT")),
       
       selectInput("myYs", "Y:", 
-                  choices = c("ACT", "SAT", "Cost", "Number of Students", "Mean Earnings", "Percent of Federal Loans", "Admission Rate")),
+                  choices = c("ACT", "SAT")),
       checkboxInput("LM", label = "Show Regression Line", value = FALSE),
       checkboxInput("CI", label = "Show Confidence Interval", value = FALSE),
-      checkboxInput("PI", label = "Show Prediction Interval", value = FALSE)
+      checkboxInput("PI", label = "Show Prediction Interval", value = FALSE),
+      selectInput("myhist", "Histogram Variable:",
+                  choices = c("SAT", "ACT"))
     ),
     
+
     # Show a plot of the generated distribution
     mainPanel(
       plotlyOutput("scatterPlot"),
       verbatimTextOutput("stats")
     )),
+
+  #histogram
+  mainPanel(
+    plotlyOutput("hist")
+  ),  
   
-    
-    # Show a summary of the dataset and an HTML table with the 
-    # requested number of observations
-    mainPanel(
-      DT::dataTableOutput("datatable")
-    )
+  # Show a summary of the dataset and an HTML table with the 
+  # requested number of observations
+  mainPanel(
+    DT::dataTableOutput("datatable")
+  )
   
   
 ))
