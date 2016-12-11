@@ -10,9 +10,9 @@ output: html_document
 
 <h3>How to use the App</h3>
 
-<p>Our app offers many filtering options for our data. The check boxes above the X/Y selections offer the ability to sort your colleges by region, and whether or not the school is public, private, or private for profit. These are all checked by default but can be paired down to the user's liking. This affects both the Data Table and the Plotly plot of variables</p>
+<p>Our app offers many filtering options for our data. The check boxes above the X/Y selections offer the ability to sort your colleges by region, and whether or not the school is public, private, or private for profit. These are all checked by default but can be paired down to the user's liking. This affects both the Data Table and the Plotly plot of variables.</p>
 
-<p>The X/Y selection box offers the user a mulitude of options to plot via plotly. This data can then be analyzed point by point by hovering over the graph, or by the use of regression lines, confidence intervals, and prediction intervals.</p>
+<p>The X/Y selection box offers the user a mulitude of options to plot via plotly. This data can then be analyzed point by point by hovering over the graph, or by the use of regression lines, confidence intervals, and prediction intervals. Below that is the univariate histogram variable selector.</p>
 
-<p>To the right of the data input is the plotly graph itself, which features a plot of the selected X and Y variables. Under that is the datatable (created by DT) which shows information about all selected colleges.</p>
+<p>To the right of the data input is the plotly graph itself, which features a plot of the selected X and Y variables. Below the plotly x/y graph is a univariate histogram of a single variable. Under that is the datatable (created by DT) which shows information about all selected colleges. It includes a search bar for each variable so that one can prepare basic queries for the data table.</p>
 
