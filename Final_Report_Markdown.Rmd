@@ -1,0 +1,17 @@
+---
+title: "Untitled"
+author: "Samuel Chase"
+date: "December 11, 2016"
+output: html_document
+---
+<h3>College Scorecard Shiny App</h3>
+
+<p>Our shiny application uses College ScoreCard Data and visualizes linear regressions of various variables in the massive data set.  The data was gathered by US Department of Education and contains information concerning colleges' locations, size, students, costs, and more.  However, the dataset is fairly large with over 7700 schools entered and over 70 columns.  This is a lot of data to sift through, so our app is an effective way to easily see trends and summaries of some of the more crucial information.</p>
+
+<h3>How to use the App</h3>
+
+<p>Our app offers many filtering options for our data. The check boxes above the X/Y selections offer the ability to sort your colleges by region, and whether or not the school is public, private, or private for profit. These are all checked by default but can be paired down to the user's liking. This affects both the Data Table and the Plotly plot of variables</p>
+
+<p>The X/Y selection box offers the user a mulitude of options to plot via plotly. This data can then be analyzed point by point by hovering over the graph, or by the use of regression lines, confidence intervals, and prediction intervals.</p>
+
+<p>To the right of the data input is the plotly graph itself, which features a plot of the selected X and Y variables. Under that is the datatable (created by DT) which shows information about all selected colleges.</p>
