@@ -22,11 +22,15 @@ shinyServer(function(input, output) {
   score[score$NumberofStudents == "NULL", "NumberofStudents"] <- NA
   score$NumberofStudents <- as.numeric(score$NumberofStudents)
   
+  #Merge 2 NetCost columns into 1
   score[score$PublicNetCost == "NULL", "PublicNetCost"] <- NA
   score[score$PrivateNetCost == "NULL", "PrivateNetCost"] <- NA
   netCost <- as.numeric(score$PublicNetCost)
   netCost[is.na(netCost)] <- as.numeric(score$PrivateNetCost[is.na(netCost)])
+  score$netCost <- netCost
+  score <- score[, -c(10, 11)]
   
+  #Checkbox input variables for subsetting data
   NE <- reactive({
     
     if(input$NE)
@@ -131,6 +135,7 @@ shinyServer(function(input, output) {
     
   })
   
+  #Checkbox input variables for turning regression plots on/off
   LM <- reactive({
     if(input$LM) {
       x <- TRUE
@@ -158,6 +163,7 @@ shinyServer(function(input, output) {
     }
   })
   
+  #Subsets data based on checkbox inputs
   scorex <- reactive({
     dispScore <- score
     
@@ -202,18 +208,25 @@ shinyServer(function(input, output) {
     dispScore
   })
 
+  
   myX <- reactive({
     switch(input$myXs,
            "SAT" = "AverageSAT",
-           "ACT" = "AverageACT")
+           "ACT" = "AverageACT",
+           "Cost" = "netCost",
+           "Number of Students" = "NumberofStudents")
   })  
 
+  
   myY <- reactive({
     switch(input$myYs,
            "ACT" = "AverageACT",
-            "SAT" = "AverageSAT")
+           "SAT" = "AverageSAT",
+           "Cost" = "netCost",
+           "Number of Students" = "NumberofStudents")
   })
   
+  #Renders a scatterplot, optionally with linear regression output
   output$scatterPlot <- renderPlotly({
     plotData <- scorex()[!is.na(scorex()[, myX()]) & !is.na(scorex()[, myY()]), ]
     
@@ -240,6 +253,7 @@ shinyServer(function(input, output) {
     plot
   })
   
+  #Renders text output containing descriptive statistics and regression information
   output$stats <- renderPrint({
     model <- lm(eval(parse(text = myY())) ~ eval(parse(text = myX())), data = scorex())
     ci <- confint(model)
@@ -250,6 +264,6 @@ shinyServer(function(input, output) {
         sep = "")
   })
   
-  #print DT
+  #Renders DT data table
   output$datatable = DT::renderDataTable(scorex())
 })
