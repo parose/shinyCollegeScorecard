@@ -7,8 +7,9 @@ library(DT)
 shinyServer(function(input, output) {
   
   #Data Importing + Cleaning
-  score <- read.csv("data/Most-Recent-Cohorts-All-Data-Elements.csv", as.is = T)[c("INSTNM", "STABBR", "REGION", "LATITUDE", "LONGITUDE", "CONTROL", "SAT_AVG_ALL", "ACTCMMID", "UGDS", "NPT4_PUB", "NPT4_PRIV")]
-  colnames(score) <- c("College Name", "State", "Region", "Latitude", "Longitude", "Control", "AverageSAT", "AverageACT", "NumberofStudents", "PublicNetCost", "PrivateNetCost")
+  score <- read.csv("data/Most-Recent-Cohorts-All-Data-Elements.csv", as.is = T)
+  score <- score[,c("INSTNM", "STABBR", "REGION", "LATITUDE", "LONGITUDE", "CONTROL", "SAT_AVG_ALL", "ACTCMMID", "UGDS", "NPT4_PUB", "NPT4_PRIV", "MN_EARN_WNE_P10", "PCTFLOAN", "ADM_RATE_ALL")]
+  colnames(score) <- c("College Name", "State", "Region", "Latitude", "Longitude", "Control", "AverageSAT", "AverageACT", "NumberofStudents", "PublicNetCost", "PrivateNetCost", "MeanEarnings", "PercentFedLoan", "AdmissionRate")
   score[score$Latitude == "NULL", "Latitude"] <- NA
   score[score$Longitude == "NULL", "Longitude"] <- NA
   score$Latitude <- as.numeric(score$Latitude)
@@ -29,6 +30,13 @@ shinyServer(function(input, output) {
   netCost[is.na(netCost)] <- as.numeric(score$PrivateNetCost[is.na(netCost)])
   score$netCost <- netCost
   score <- score[, -c(10, 11)]
+  
+  score[score$MeanEarnings == "NULL", "MeanEarnings"] <- NA
+  score[score$PercentFedLoan == "NULL", "PercentFedLoan"] <- NA
+  score[score$AdmissionRate == "NULL", "AdmissionRate"] <- NA
+  score$MeanEarnings <- as.numeric(score$MeanEarnings)
+  score$PercentFedLoan <- as.numeric(score$PercentFedLoan)
+  score$AdmissionRate <- as.numeric(score$AdmissionRate)
   
   #Checkbox input variables for subsetting data
   NE <- reactive({
@@ -214,7 +222,10 @@ shinyServer(function(input, output) {
            "SAT" = "AverageSAT",
            "ACT" = "AverageACT",
            "Cost" = "netCost",
-           "Number of Students" = "NumberofStudents")
+           "Number of Students" = "NumberofStudents",
+           "Mean Earnings" = "MeanEarnings",
+           "Percent of Federal Loans" = "PercentFedLoan",
+           "Admission Rate" = "AdmissionRate")
   })  
 
   
@@ -223,7 +234,10 @@ shinyServer(function(input, output) {
            "ACT" = "AverageACT",
            "SAT" = "AverageSAT",
            "Cost" = "netCost",
-           "Number of Students" = "NumberofStudents")
+           "Number of Students" = "NumberofStudents",
+           "Mean Earnings" = "MeanEarnings",
+           "Percent of Federal Loans" = "PercentFedLoan",
+           "Admission Rate" = "AdmissionRate")
   })
   
   #Renders a scatterplot, optionally with linear regression output

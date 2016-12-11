@@ -20,10 +20,10 @@ shinyUI(fluidPage(
       checkboxInput("PR", label = "Private", value = TRUE),
       checkboxInput("PFP", label = "Private or-Profit", value = TRUE),
       selectInput("myXs", "X:", 
-                  choices = c("SAT", "ACT", "Cost", "Number of Students")),
+                  choices = c("SAT", "ACT", "Cost", "Number of Students", "Mean Earnings", "Percent of Federal Loans", "Admission Rate")),
       
       selectInput("myYs", "Y:", 
-                  choices = c("ACT", "SAT", "Cost", "Number of Students")),
+                  choices = c("ACT", "SAT", "Cost", "Number of Students", "Mean Earnings", "Percent of Federal Loans", "Admission Rate")),
       checkboxInput("LM", label = "Show Regression Line", value = FALSE),
       checkboxInput("CI", label = "Show Confidence Interval", value = FALSE),
       checkboxInput("PI", label = "Show Prediction Interval", value = FALSE)
