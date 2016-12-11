@@ -8,6 +8,12 @@ output: html_document
 
 <p>Our shiny application uses College ScoreCard Data and visualizes linear regressions of various variables in the massive data set.  The data was gathered by US Department of Education and contains information concerning colleges' locations, size, students, costs, and more.  However, the dataset is fairly large with over 7700 schools entered and over 70 columns.  This is a lot of data to sift through, so our app is an effective way to easily see trends and summaries of some of the more crucial information.</p>
 
+<h3>Our Goal</h3>
+
+<p>Searching for a college can be hard. There are lots of factors - what region do I want to live in? Is private better than public? What is the average SAT score of my favorite school?</p>
+
+<p>We wanted to provide tools users to answer some of these questions. By allowing users to select between certain factors (ie location) we allow users to analyze schools based on specific factors. The plots allow users to see overall trends of universities in the specific factor set they wish, whereas the data table and plotly selection feature allow them to zoom in on specific schools to see more. We wanted to allow students to intelligently and easily run queries and gather stastics about schools - both nationwide and in whatever subcategories they wished. </p>
+
 <h3>How to use the App</h3>
 
 <p>Our app offers many filtering options for our data. The check boxes above the X/Y selections offer the ability to sort your colleges by region, and whether or not the school is public, private, or private for profit. These are all checked by default but can be paired down to the user's liking. This affects both the Data Table and the Plotly plot of variables.</p>
