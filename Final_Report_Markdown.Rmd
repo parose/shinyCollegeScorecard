@@ -24,3 +24,40 @@ output: html_document
 
 <p>To the right of the data input is the plotly graph itself, which features a plot of the selected X and Y variables. Below the plotly x/y graph is a univariate histogram of a single variable. Under that is the datatable (created by DT) which shows information about all selected colleges. It includes a search bar so that one can prepare basic queries for the data table.</p>
 
+<h3>Plotting with the College Scorecard App</h3>
+
+<p>Using the X and Y selection boxes, users can choose which variables to display on a scatterplot. Selection box options also allows users to turn regression information on or off, and narrow down the data based on different selection criteria. Scatterplots are rendered using Plotly, an R package used for making interactive graphs. And example graphic that could be shown in this app is shown below.</p>
+
+```{R echo = F, message = F}
+library(magrittr)
+library(plotly)
+
+score <- read.csv("data/Most-Recent-Cohorts-All-Data-Elements.csv", as.is = T)
+score <- score[,c("INSTNM", "STABBR", "REGION", "LATITUDE", "LONGITUDE", "CONTROL", "SAT_AVG_ALL", "ACTCMMID", "UGDS", "NPT4_PUB", "NPT4_PRIV", "MN_EARN_WNE_P10", "PCTFLOAN", "ADM_RATE_ALL")]
+colnames(score) <- c("College Name", "State", "Region", "Latitude", "Longitude", "Control", "AverageSAT", "AverageACT", "NumberofStudents", "PublicNetCost", "PrivateNetCost", "MeanEarnings", "PercentFedLoan", "AdmissionRate")
+score[score$Latitude == "NULL", "Latitude"] <- NA
+score[score$Longitude == "NULL", "Longitude"] <- NA
+score$Latitude <- as.numeric(score$Latitude)
+score$Longitude <- as.numeric(score$Longitude)
+  
+score[score$AverageACT == "NULL", "AverageACT"] <- NA
+score[score$AverageSAT == "NULL", "AverageSAT"] <- NA
+score$AverageACT <- as.numeric(score$AverageACT)
+score$AverageSAT <- as.numeric(score$AverageSAT)
+  
+plotData <- score[!is.na(score[, "AverageACT"]) & !is.na(score[, "AverageSAT"]), ]
+    
+model <- lm(AverageACT ~ AverageSAT, data = plotData)
+predictObj <- predict(model, interval = "prediction", level = 0.99)
+confObj <- predict(model, interval = "confidence", level = 0.99)
+
+plot <- plot_ly(plotData, x = ~AverageSAT) %>% add_markers(y = ~AverageACT, name = "", text = plotData[,"College Name"], showlegend = F)
+
+plot <- add_ribbons(plot, ymin = ~predictObj[,"lwr"], ymax = ~predictObj[,"upr"], line = list(color = 'rgba(255, 246, 79, 0.4)'), fillcolor = 'rgba(255, 246, 79, 0.4)', name = "99% Prediction Interval")
+plot <- add_ribbons(plot, ymin = ~confObj[,"lwr"], ymax = ~confObj[,"upr"], line = list(color = 'rgba(255, 150, 0, 0.4)'), fillcolor = 'rgba(255, 204, 0, 0.4)', name = "99% Confidence Interval")
+
+plot <- add_lines(plot, y = ~fitted(model), line = list(color = "red"), name = "Regression Line")
+
+plot
+```
+
