@@ -215,12 +215,12 @@ shinyServer(function(input, output) {
     
     dispScore
   })
-
+  
   myhist <- reactive({
     switch(input$myhist,
            "ACT" = "AverageACT",
            "SAT" = "AverageSAT",
-            "Cost" = "netCost",
+           "Cost" = "netCost",
            "Number of Students" = "NumberofStudents",
            "Mean Earnings" = "MeanEarnings",
            "Percent of Federal Loans" = "PercentFedLoan",
@@ -237,7 +237,7 @@ shinyServer(function(input, output) {
            "Percent of Federal Loans" = "PercentFedLoan",
            "Admission Rate" = "AdmissionRate")
   })  
-
+  
   
   myY <- reactive({
     switch(input$myYs,
@@ -250,13 +250,13 @@ shinyServer(function(input, output) {
            "Admission Rate" = "AdmissionRate")
   })
   
-    output$hist <- renderPlotly({
-      plotData <- scorex()[!is.na(scorex()[, myhist()]),] 
+  output$hist <- renderPlotly({
+    plotData <- scorex()[!is.na(scorex()[, myhist()]),] 
     x <- list(
       title = myhist()
     )
     p <- plot_ly(data = plotData, x = ~eval(parse(text = myhist())), type = "histogram") %>% layout(title = "Univariate Data Analysis", xaxis = x)
-
+    
   })
   
   #Renders a scatterplot, optionally with linear regression output
@@ -294,6 +294,13 @@ shinyServer(function(input, output) {
         "\n\nLinear Model: y = ", model$coef[1], " + ", model$coef[2], "*", "x", 
         "\n\n\t   Coefficient\t95% C.I.\t\t    Prob > t",
         "\nIntercept: ", model$coef[1], "\t(",ci[1,1], ",", ci[1,2], ")\t    ", summary(model)[[4]][1,4],"\nSlope:\t   ", model$coef[2], "\t(",ci[2,1], ",", ci[2,2], ")\t    ", summary(model)[[4]][2,4],
+        sep = "")
+  })
+  
+  #Renders text output containing descriptive statistics and regression information
+  output$histstats <- renderPrint({
+    
+    cat("Mean of Hist variable:", mean(scorex()[,myhist()], na.rm = T),"\tMedian of Hist variable:", median(scorex()[,myhist()], na.rm = T),
         sep = "")
   })
   
