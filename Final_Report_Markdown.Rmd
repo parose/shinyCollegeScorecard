@@ -61,3 +61,12 @@ plot <- add_lines(plot, y = ~fitted(model), line = list(color = "red"), name = "
 plot
 ```
 
+<h3>Analysis</h3>
+
+<p>Overall, we found a few strong trends in our data. ACT score is strongly positively correlated with SAT score. We found no relationship between number of students and ACT scores. The mean SAT of Public Schools was 1052, compared to 1072 for private universities. In the continental US we looked at each region's average SAT scores, and found that the Western US had the highest average of 1126, and the South US had the lowest average of 1032. The Midwest and New England were somewhere in between with 1072 and 1098, respectively.</p>
+
+<p>There is a lot of data to be analyzed here, and we included some of our favorite findings. To list it all would take a textbook's worth of words. We hope you found our quick stats interesting, and invite you to discover more using our app.</p>
+
+<h3>Conclusion</h3>
+
+<p>Although we found a few common trends in the data, our main goal has been to provide the user with tools to analyze the specific data that is pertinant to their interests. We hope this app has improved your ability to analyze and interperet data from he college scorecard. </p>
