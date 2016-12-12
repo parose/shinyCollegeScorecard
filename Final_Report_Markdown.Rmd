@@ -12,15 +12,15 @@ output: html_document
 
 <p>Searching for a college can be hard. There are lots of factors - what region do I want to live in? Is private better than public? What is the average SAT score of my favorite school?</p>
 
-<p>We wanted to provide tools users to answer some of these questions. By allowing users to select between certain factors (ie location) we allow users to analyze schools based on specific factors. The plots allow users to see overall trends of universities in the specific factor set they wish, whereas the data table and plotly selection feature allow them to zoom in on specific schools to see more. We wanted to allow students to intelligently and easily run queries and gather stastics about schools - both nationwide and in whatever subcategories they wished. </p>
+<p>We wanted to provide tools for users to answer some of these questions. By allowing users to select between certain factors (ie location) we allow users to analyze schools based on specific factors. The plots allow users to see overall trends of universities in the specific factor set they wish, whereas the data table and plotly selection features allow them to zoom in on specific schools to see more. We wanted to allow students to intelligently and easily run queries and gather stastics about schools - both nationwide and in whatever subcategories they wished. </p>
 
 <p>Our tool has a X/Y plot to show bivariate data. We offer regression lines and confidence intervals to provide baselines and estimate relationships between variables. We offer prediciton intervals to predict individual values. We also have a histogram to analyze univariate data, and a data table to show all the schools in our data set.</p>
 
 <h3>How to use the App</h3>
 
-<p>Our app offers many filtering options for our data. The check boxes above the X/Y selections offer the ability to sort your colleges by region, and whether or not the school is public, private, or private for profit. These are all checked by default but can be paired down to the user's liking. This affects both the Data Table and the Plotly plot of variables.</p>
+<p>Our app offers many filtering options for our data. The check boxes above the X/Y selections offer the ability to sort your colleges by region, and whether or not the school is public, private, or private for profit. These are all checked by default but can be paired down to the user's liking. This affect all the data and graphs displayed in the app -  both the Data Table and the Plotly plots of variables.</p>
 
-<p>The X/Y selection box offers the user a mulitude of options to plot via plotly. This data can then be analyzed point by point by hovering over the graph, or by the use of regression lines, confidence intervals, and prediction intervals. Below that is the univariate histogram variable selector.</p>
+<p>The X/Y selection box offers the user a mulitude of options to plot via plotly. This data can then be analyzed point by point by hovering over the graph, or by the use of regression lines, confidence intervals, and prediction intervals. Below that is the univariate histogram variable selector.  Both the histogram and scatterplot have summary stastics shown below.</p>
 
 <p>To the right of the data input is the plotly graph itself, which features a plot of the selected X and Y variables. Below the plotly x/y graph is a univariate histogram of a single variable. Under that is the datatable (created by DT) which shows information about all selected colleges. It includes a search bar so that one can prepare basic queries for the data table.</p>
 
