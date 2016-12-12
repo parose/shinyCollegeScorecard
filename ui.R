@@ -35,14 +35,15 @@ shinyUI(fluidPage(
       plotlyOutput("scatterPlot"),
       verbatimTextOutput("stats")
     )
-    ),
-    
-    # Show a summary of the dataset and an HTML table with the 
-    # requested number of observations
-    mainPanel(
-      plotlyOutput("hist"),
-      DT::dataTableOutput("datatable")
-    )
+  ),
+  
+  # Show a summary of the dataset and an HTML table with the 
+  # requested number of observations
+  mainPanel(
+    plotlyOutput("hist"),
+    verbatimTextOutput("histstats"),
+    DT::dataTableOutput("datatable")
+  )
   
   
 ))
